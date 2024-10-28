@@ -5,10 +5,10 @@
 
 __global__ void naiveSS(int *in, int *out) {
     for (int i = 0; i < SIZE; i++) {
-    int value = 0;
-    for (int j = 0; j <= i; j++) {
-        value += in[j];
-    }
+        int value = 0;
+        for (int j = 0; j <= i; j++) {
+            value += in[j];
+        }
         out[i] = value;
     }
 
