@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 8
+#define SIZE 128
 
 __global__ void naiveSS(int *in, int *out) {
     __shared__ int source[SIZE];
@@ -36,10 +36,11 @@ int main() {
     cudaMallocManaged(&input, sizeof(int) * SIZE);
     cudaMallocManaged(&output, sizeof(int) * SIZE);
 
-    // // initialize inputs
-    // for (int i = 0; i < SIZE; i++) {
-    //     input[i] = 1;
-    // }
+    // initialize inputs
+    for (int i = 0; i < SIZE; i++) {
+        input[i] = 1;
+    }
+    // // test non ones input
     // input[0] = 3;
     // input[1] = 1;
     // input[2] = 7;
@@ -52,11 +53,11 @@ int main() {
     naiveSS<<<1, SIZE>>>(input, output);
     cudaDeviceSynchronize();
 
-    // check results
-    for (int i = 0; i < SIZE; i++) {
-        printf("%d ", output[i]);
-    }
-    printf("\n");
+    // // check results
+    // for (int i = 0; i < SIZE; i++) {
+    //     printf("%d ", output[i]);
+    // }
+    // printf("\n");
 
     printf("%s\n", cudaGetErrorString(cudaGetLastError()));
 

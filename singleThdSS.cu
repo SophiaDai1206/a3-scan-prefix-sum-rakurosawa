@@ -26,10 +26,11 @@ int main(void){
 
     singleThdSS(input, output);
 
-    // // print array (for use with small testing)
-    // for(int i = 0 ;i < SIZE; i++){ 
-    //   printf("%d, ", output[i]);
+    // // check results
+    // for (int i = 0; i < SIZE; i++) {
+    //     printf("%d ", output[i]);
     // }
+    // printf("\n");
 
     printf("%s\n", cudaGetErrorString(cudaGetLastError()));
 

@@ -28,7 +28,7 @@ int main() {
     naiveSS<<<1, 1>>>(input, output);
     cudaDeviceSynchronize();
 
-    // check results
+    // // check results
     // for (int i = 0; i < SIZE; i++) {
     //     printf("%d ", output[i]);
     // }
