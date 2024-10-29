@@ -31,6 +31,13 @@ __global__ void naiveSS(int *in, int *out) {
 }
 
 int main() {
+    // timer information source: https://developer.nvidia.com/blog/how-implement-performance-metrics-cuda-cc/
+    // timer allocation
+    cudaEvent_t start, end;
+    cudaEventCreate(&start);
+    cudaEventCreate(&end);
+
+
     // allocate memory
     int *input, *output;
     cudaMallocManaged(&input, sizeof(int) * SIZE);
@@ -50,8 +57,20 @@ int main() {
     // input[6] = 6;
     // input[7] = 3;
 
+    // collect first timer dp
+    cudaEventRecord(start);
+    // run the kernel
     naiveSS<<<1, SIZE>>>(input, output);
     cudaDeviceSynchronize();
+    // collect second timer dp
+    cudaEventRecord(end);
+
+    cudaEventSynchronize(end);
+    float milsec = 0;
+    // calculates total run time in ms
+    cudaEventElapsedTime(&milsec, start, end);
+
+    printf("elapsed time: %f ms\n", milsec);
 
     // // check results
     // for (int i = 0; i < SIZE; i++) {
