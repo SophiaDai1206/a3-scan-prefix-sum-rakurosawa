@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
-#define SIZE 128
+#define SIZE 512 // test 128, 256, 512
 
 __global__ void naiveSS(int *in, int *out) {
     for (int i = 0; i < SIZE; i++) {
@@ -14,17 +15,24 @@ __global__ void naiveSS(int *in, int *out) {
 
 }
 
+
+double get_clock() {
+    struct timeval tv; int ok;
+    ok = gettimeofday(&tv, (void *) 0);
+    if (ok<0) { 
+        printf("gettimeofday error"); 
+    }
+    return (tv.tv_sec * 1.0 + tv.tv_usec * 1.0E-6);
+}
+
 int main() {
-    // timer information source: https://developer.nvidia.com/blog/how-implement-performance-metrics-cuda-cc/
-    // timer allocation
-    cudaEvent_t start, end;
-    cudaEventCreate(&start);
-    cudaEventCreate(&end);
 
     // allocate memory
     int *input, *output;
     cudaMallocManaged(&input, sizeof(int) * SIZE);
     cudaMallocManaged(&output, sizeof(int) * SIZE);
+
+    double t0, t1;
 
     // initialize inputs
     for (int i = 0; i < SIZE; i++) {
@@ -32,19 +40,14 @@ int main() {
     }
 
     // collect first timer dp
-    cudaEventRecord(start);
+    t0 = get_clock();
     // run the kernel
     naiveSS<<<1, 1>>>(input, output);
     cudaDeviceSynchronize();
     // collect second timer dp
-    cudaEventRecord(end);
+    t1 = get_clock();
 
-    cudaEventSynchronize(end);
-    float milsec = 0;
-    // calculates total run time in ms
-    cudaEventElapsedTime(&milsec, start, end);
-
-    printf("elapsed time: %f ms\n", milsec);
+   printf("time: %f ns\n", 1000000000.0*(t1-t0));
 
     // // check results
     // for (int i = 0; i < SIZE; i++) {

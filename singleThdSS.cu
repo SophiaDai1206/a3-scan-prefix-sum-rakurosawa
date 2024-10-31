@@ -1,8 +1,8 @@
-// include any headers
 #include <iostream>
 #include <math.h>
+#include <sys/time.h>
 
-#define SIZE 128
+#define SIZE 128 // test 128, 256, 512
 
 __host__ void singleThdSS(int *in, int *out) {
     // copy the first value of in to out
@@ -13,17 +13,25 @@ __host__ void singleThdSS(int *in, int *out) {
     }
 }
 
+
+double get_clock() {
+    struct timeval tv; int ok;
+    ok = gettimeofday(&tv, (void *) 0);
+    if (ok<0) { 
+        printf("gettimeofday error"); 
+        }
+    return (tv.tv_sec * 1.0 + tv.tv_usec * 1.0E-6);
+}
+
+
 int main(void){
-    // timer information source: https://developer.nvidia.com/blog/how-implement-performance-metrics-cuda-cc/
-    // timer allocation
-    cudaEvent_t start, end;
-    cudaEventCreate(&start);
-    cudaEventCreate(&end);
 
     // allocate memory
     int *input, *output;
     cudaMallocManaged(&input, SIZE*sizeof(int));
     cudaMallocManaged(&output, SIZE*sizeof(int));
+
+    double t0, t1;
 
     // initialize inputs
     for (int i = 0; i < SIZE; i++) {
@@ -31,18 +39,13 @@ int main(void){
     }
 
     // collect first timer dp
-    cudaEventRecord(start);
+    t0 = get_clock();
     // run the program
     singleThdSS(input, output);
     // collect second timer dp
-    cudaEventRecord(end);
+    t1 = get_clock();
 
-    cudaEventSynchronize(end);
-    float milsec = 0;
-    // calculates total run time in ms
-    cudaEventElapsedTime(&milsec, start, end);
-
-    printf("elapsed time: %f ms\n", milsec);
+    printf("time: %f ns\n", 1000000000.0*(t1-t0));
 
     // // check results
     // for (int i = 0; i < SIZE; i++) {
