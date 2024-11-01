@@ -4,7 +4,7 @@
 
 #define SIZE 128 // test 128, 256, 512
 
-__host__ void singleThdSS(int *in, int *out) {
+__host__ void singleThdSS(int *in, int *out) { // change to float for scaling test
     // copy the first value of in to out
     out[0] = in[0];
     // add the prior value in out to the next value in in 
@@ -27,15 +27,15 @@ double get_clock() {
 int main(void){
 
     // allocate memory
-    int *input, *output;
-    cudaMallocManaged(&input, SIZE*sizeof(int));
-    cudaMallocManaged(&output, SIZE*sizeof(int));
+    int *input, *output; // change to float for scaling test
+    cudaMallocManaged(&input, SIZE*sizeof(int)); // change to float for scaling test
+    cudaMallocManaged(&output, SIZE*sizeof(int)); // change to float for scaling test
 
     double t0, t1;
 
     // initialize inputs
-    for (int i = 0; i < SIZE; i++) {
-        input[i] = 1;
+    for (int i = 0; i < SIZE; i++) { 
+        input[i] = 1; // change to 1.0 for scaling test
     }
 
     // collect first timer dp

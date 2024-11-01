@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define SIZE 512 // test 128, 256, 512
+#define SIZE 128 // test 128, 256, 512
 
-__global__ void naiveSS(int *in, int *out) {
+__global__ void naiveSS(int *in, int *out) { // change to float for scaling test
     __shared__ int source[SIZE];
     __shared__ int destination[SIZE];
     __shared__ int temp[SIZE];
@@ -43,15 +43,15 @@ int main() {
 
 
     // allocate memory
-    int *input, *output;
-    cudaMallocManaged(&input, sizeof(int) * SIZE);
-    cudaMallocManaged(&output, sizeof(int) * SIZE);
+    int *input, *output; // change to float for scaling test
+    cudaMallocManaged(&input, sizeof(int) * SIZE); // change to float for scaling test
+    cudaMallocManaged(&output, sizeof(int) * SIZE); // change to float for scaling test
 
     double t0, t1;
 
     // initialize inputs
     for (int i = 0; i < SIZE; i++) {
-        input[i] = 1;
+        input[i] = 1; // change to 1.0 for scaling test
     }
     // // test non ones input
     // input[0] = 3;
