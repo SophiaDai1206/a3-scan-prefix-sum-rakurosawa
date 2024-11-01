@@ -17,5 +17,4 @@ recurseDb: O(log(n))
 | Array of floats, size 512 | 1192.09289 | 3854036.331 | 277042.3889 |
 
 ## Data Chart
-
-![](https://github.com/SmithCollege/a3-scan-prefix-sum-rakurosawa/blob/359713efb4b26281e778ada5085e314426b8b521/Time%20vs.%20Size.png)
+![](https://github.com/SmithCollege/a3-scan-prefix-sum-rakurosawa/blob/e9949d8f4e80e8b290f6c456c4ce884b25a9f8a7/ResultsGraph.png)
