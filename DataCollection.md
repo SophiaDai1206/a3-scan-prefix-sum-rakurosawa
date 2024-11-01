@@ -18,4 +18,4 @@ recurseDb: O(log(n))
 
 ## Data Chart
 
-![ScalingDataChart.png](https://github.com/SmithCollege/a3-scan-prefix-sum-rakurosawa/blob/5a8c2e84f30de1b6655ead1445f193200f22ec99/ScalingDataChart.png)
+![](https://github.com/SmithCollege/a3-scan-prefix-sum-rakurosawa/blob/359713efb4b26281e778ada5085e314426b8b521/Time%20vs.%20Size.png)
